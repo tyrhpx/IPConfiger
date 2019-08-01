@@ -82,27 +82,9 @@ namespace IPConfiger
         }
 
         /// <summary>
-        /// 启用适配器
+        /// 重载ToString
         /// </summary>
-        public void EnableAdapter()
-        {
-            if (this.MO != null)
-            {
-                MO.InvokeMethod("Enable", null);
-            }
-        }
-
-        /// <summary>
-        /// 禁用适配器
-        /// </summary>
-        public void DisableAdapter()
-        {
-            if (this.MO != null)
-            {
-                MO.InvokeMethod("Disable", null);
-            }
-        }
-
+        /// <returns></returns>
         public override string ToString()
         {
             return this.Name;
