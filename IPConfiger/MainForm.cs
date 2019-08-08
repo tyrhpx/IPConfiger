@@ -21,7 +21,14 @@ namespace IPConfiger
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            UpdateAllAdapters();
+        }
+
+        private void UpdateAllAdapters()
+        {
             var adapters = NetworkAdapterUtil.GetAllNetworkAdapters();
+
+            lbNetCards.Items.Clear();
             foreach (var x in adapters)
             {
                 lbNetCards.Items.Add(x);
@@ -56,28 +63,65 @@ namespace IPConfiger
                 var mask = new List<string>();
                 for (int i = 0; i < tbText.Lines.Length; i++)
                 {
-                    string[] sa = tbText.Lines[i].Split('#');
+                    string lineStr = tbText.Lines[i].Trim();
+                    if (string.IsNullOrEmpty(lineStr))
+                    {
+                        continue;
+                    }
+                    string[] sa = lineStr.Split('#');
                     if (sa.Length == 2)
                     {
-                        ip.Add(sa[0]);
-                        mask.Add(sa[1]);
+                        if (IsIPAddressValid(sa[0]) && IsIPAddressValid(sa[1]))
+                        {
+                            ip.Add(sa[0]);
+                            mask.Add(sa[1]);
+                        }
+                        else
+                        {
+                            string s = string.Format("抱歉，第{0}行有误，请检查IP或子网掩码！", i + 1);
+                            MessageBox.Show(s, "配置", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        string s = string.Format("抱歉，第{0}行有误，正确格式为：IP#SubMask！", i + 1);
+                        MessageBox.Show(s, "配置", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
                 }
                 
                 if (MessageBox.Show("确认要更新网卡【" + adapter.Name + "】的IP配置吗？",
                             "询问", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
                 {
-                    bool ret = adapter.SetIPAddress(ip.ToArray(), mask.ToArray(), null, null);
+                    string errStr = "";
+                    bool ret = adapter.SetIPAddress(ip.ToArray(), mask.ToArray(), null, null, ref errStr);
                     if (ret)
                     {
-                        MessageBox.Show("很棒，更新成功^_^", "配置", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
+                        this.Cursor = Cursors.WaitCursor;
+                        adapter.ReloadData();
+                        this.Cursor = Cursors.Default;
+
+                        MessageBox.Show("很棒，更新成功^_^\n返回信息：" + errStr, "配置", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        lbNetCards_SelectedIndexChanged(null, null); //触发事件更新编辑框内容
+                   }
                     else
                     {
-                        MessageBox.Show("抱歉，更新失败- -!", "配置", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }  
+                        MessageBox.Show("抱歉，更新失败- -!\n返回信息：" + errStr, "配置", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    } 
                 }
             }
-        }  
+        }
+
+        /// <summary>
+        /// 判断IP地址是否有效
+        /// </summary>
+        /// <param name="ipStr"></param>
+        /// <returns>true-有效，false-无效</returns>
+        private bool IsIPAddressValid(string ipStr)
+        {
+            IPAddress ip;
+            return IPAddress.TryParse(ipStr, out ip);
+        }
     }
 }

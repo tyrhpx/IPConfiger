@@ -73,24 +73,7 @@ namespace IPConfiger
         private static NetworkAdapter SetNetworkAdapterValue(NetworkInterface adapter)
         {
             NetworkAdapter adp = new NetworkAdapter();
-            IPInterfaceProperties ips = adapter.GetIPProperties();
-            adp.Name = adapter.Name;
-            adp.NetworkInterfaceType = adapter.NetworkInterfaceType.ToString();
-            adp.Speed = adapter.Speed / 1000 / 1000 + "MB"; //速度
-            adp.MacAddress = adapter.GetPhysicalAddress(); //物理地址集合
-            adp.NetworkInterfaceID = adapter.Id;//网络适配器标识符
-
-            adp.Gateways = ips.GatewayAddresses; //网关地址集合
-            adp.IPAddrs = ips.UnicastAddresses; //IP地址集合
-            adp.DhcpServerAddrs = ips.DhcpServerAddresses;//DHCP地址集合
-            adp.IsDhcpEnabled = ips.GetIPv4Properties() == null ? false : ips.GetIPv4Properties().IsDhcpEnabled; //是否启用DHCP服务
-            adp.DnsAddrs = ips.DnsAddresses; //获取并显示DNS服务器IP地址信息 集合
-
-            adp.MO = GetManageObj(adapter.Id);
-            if (adp.MO != null)
-            {
-                adp.Desc = adp.MO["Description"].ToString();
-            }
+            adp.Update(adapter);
             return adp;
         }
 
@@ -99,7 +82,7 @@ namespace IPConfiger
         /// </summary>
         /// <param name="interfaceID">接口ID</param>
         /// <returns></returns>
-        private static ManagementObject GetManageObj(string interfaceID)
+        public static ManagementObject GetManageObj(string interfaceID)
         {
             ManagementClass wmi = new ManagementClass("Win32_NetworkAdapterConfiguration");
             ManagementObjectCollection moc = wmi.GetInstances();
