@@ -9,94 +9,148 @@ namespace IPConfiger
 {
     public class NetworkAdapterUtil
     {
-        /// <summary>
-        /// 获取所有适配器类型，适配器被禁用则不能获取到
-        /// </summary>
-        /// <returns></returns>
-        public static List<NetworkAdapter> GetAllNetworkAdapters() //如果适配器被禁用则不能获取到
+        public static void ListNetworkAdapters()
         {
-            IEnumerable<NetworkInterface> adapters = NetworkInterface.GetAllNetworkInterfaces(); //得到所有适配器
-            return GetNetworkAdapters(adapters);
-        }
+            var query = new ObjectQuery("SELECT * FROM Win32_NetworkAdapter");
 
-        /// <summary>
-        /// 根据条件获取IP地址集合，
-        /// </summary>
-        /// <param name="adapters">网络接口地址集合</param>
-        /// <param name="adapterTypes">网络连接状态，如,UP,DOWN等</param>
-        /// <returns></returns>
-        private static List<NetworkAdapter> GetNetworkAdapters(IEnumerable<NetworkInterface> adapters, params NetworkInterfaceType[] networkInterfaceTypes)
-        {
-            var adapterList = new List<NetworkAdapter>();
-
-            foreach (NetworkInterface adapter in adapters)
+            using (var searcher = new ManagementObjectSearcher(query))
             {
-                if (networkInterfaceTypes.Length <= 0) //如果没传可选参数，就查询所有
+                var queryCollection = searcher.Get();
+
+                foreach (ManagementObject m in queryCollection)
                 {
-                    if (adapter != null)
-                    {
-                        NetworkAdapter adp = SetNetworkAdapterValue(adapter);
-                        if (adp.NetworkInterfaceType == "Ethernet")
-                        {
-                            adapterList.Add(adp);
-                        }
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    Console.WriteLine("\n--------------------------------------------");
+                    PrintProperty(m, "AdapterType");
+                    PrintProperty(m, "AdapterTypeID");
+                    PrintProperty(m, "AutoSense");
+                    PrintProperty(m, "Availability");
+                    PrintProperty(m, "Caption");
+                    PrintProperty(m, "ConfigManagerErrorCode");
+                    PrintProperty(m, "ConfigManagerUserConfig");
+                    PrintProperty(m, "CreationClassName");
+                    PrintProperty(m, "Description");
+                    PrintProperty(m, "DeviceID");
+                    PrintProperty(m, "ErrorCleared");
+                    PrintProperty(m, "ErrorDescription");
+                    PrintProperty(m, "GUID");
+                    PrintProperty(m, "Index");
+                    PrintProperty(m, "InstallDate");
+                    PrintProperty(m, "Installed");
+                    PrintProperty(m, "InterfaceIndex");
+                    PrintProperty(m, "LastErrorCode");
+                    PrintProperty(m, "MACAddress");
+                    PrintProperty(m, "Manufacturer");
+                    PrintProperty(m, "MaxNumberControlled");
+                    PrintProperty(m, "MaxSpeed");
+                    PrintProperty(m, "Name");
+                    PrintProperty(m, "NetConnectionID");
+                    PrintProperty(m, "NetConnectionStatus");
+                    PrintProperty(m, "NetEnabled");
+                    PrintProperty(m, "NetworkAddresses");
+                    PrintProperty(m, "PermanentAddress");
+                    PrintProperty(m, "PhysicalAdapter");
+                    PrintProperty(m, "PNPDeviceID");
+                    PrintProperty(m, "PowerManagementCapabilities");
+                    PrintProperty(m, "PowerManagementSupported");
+                    PrintProperty(m, "ProductName");
+                    PrintProperty(m, "ServiceName");
+                    PrintProperty(m, "Speed");
+                    PrintProperty(m, "Status");
+                    PrintProperty(m, "StatusInfo");
+                    PrintProperty(m, "SystemCreationClassName");
+                    PrintProperty(m, "SystemName");
+                    PrintProperty(m, "TimeOfLastReset");
+                    Console.WriteLine();
                 }
-                else //过滤查询数据
-                {
-                    foreach (NetworkInterfaceType networkInterfaceType in networkInterfaceTypes)
-                    {
-                        if (adapter.NetworkInterfaceType.ToString().Equals(networkInterfaceType.ToString()))
-                        {
-                            NetworkAdapter adp = SetNetworkAdapterValue(adapter);
-                            if (adp.NetworkInterfaceType == "Ethernet")
-                            {
-                                adapterList.Add(adp);
-                            }
-                            break; //退出当前循环
-                        }
-                    }
-                }
+
+                Console.ReadLine();
             }
-            return adapterList;
+            /* https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-networkadapter*/
         }
 
-        /// <summary>
-        /// 设置网络适配器信息
-        /// </summary>
-        /// <param name="adapter"></param>
-        /// <returns></returns>
-        private static NetworkAdapter SetNetworkAdapterValue(NetworkInterface adapter)
+        public static void ListNetworkAdapters2()
         {
-            NetworkAdapter adp = new NetworkAdapter();
-            adp.Update(adapter);
-            return adp;
-        }
+            var query = new ObjectQuery("SELECT * FROM Win32_NetworkAdapterConfiguration");
 
-        /// <summary>
-        /// 获取网张适配器管理对象
-        /// </summary>
-        /// <param name="interfaceID">接口ID</param>
-        /// <returns></returns>
-        public static ManagementObject GetManageObj(string interfaceID)
-        {
-            ManagementClass wmi = new ManagementClass("Win32_NetworkAdapterConfiguration");
-            ManagementObjectCollection moc = wmi.GetInstances();
-            foreach (ManagementObject mo in moc)
+            using (var searcher = new ManagementObjectSearcher(query))
             {
-                if (!(bool)mo["IPEnabled"])
-                    continue;
+                var queryCollection = searcher.Get();
 
-                if (mo["SettingID"].ToString() == interfaceID) //网卡接口标识是否相等, 相当只设置指定适配器IP地址
+                foreach (ManagementObject m in queryCollection)
                 {
-                    return mo;
+                    Console.WriteLine("\n--------------------------------------------");
+                    PrintProperty(m, "Caption");
+                    PrintProperty(m, "Description");
+                    PrintProperty(m, "SettingID");
+                    PrintProperty(m, "ArpAlwaysSourceRoute");
+                    PrintProperty(m, "ArpUseEtherSNAP");
+                    PrintProperty(m, "DatabasePath");
+                    PrintProperty(m, "DeadGWDetectEnabled");
+                    PrintProperty(m, "DefaultIPGateway");
+                    PrintProperty(m, "DefaultTOS");
+                    PrintProperty(m, "DefaultTTL");
+                    PrintProperty(m, "DHCPEnabled");
+                    PrintProperty(m, "DHCPLeaseExpires");
+                    PrintProperty(m, "DHCPLeaseObtained");
+                    PrintProperty(m, "DHCPServer");
+                    PrintProperty(m, "DNSDomain");
+                    PrintProperty(m, "DNSDomainSuffixSearchOrder");
+                    PrintProperty(m, "DNSEnabledForWINSResolution");
+                    PrintProperty(m, "DNSHostName");
+                    PrintProperty(m, "DNSServerSearchOrder");
+                    PrintProperty(m, "DomainDNSRegistrationEnabled");
+                    PrintProperty(m, "ForwardBufferMemory");
+                    PrintProperty(m, "FullDNSRegistrationEnabled");
+                    PrintProperty(m, "GatewayCostMetric");
+                    PrintProperty(m, "IGMPLevel");
+                    PrintProperty(m, "Index");
+                    PrintProperty(m, "InterfaceIndex");
+                    PrintProperty(m, "IPAddress");
+                    PrintProperty(m, "IPConnectionMetric");
+                    PrintProperty(m, "IPEnabled");
+                    PrintProperty(m, "IPFilterSecurityEnabled");
+                    PrintProperty(m, "IPPortSecurityEnabled");
+                    PrintProperty(m, "IPSecPermitIPProtocols");
+                    PrintProperty(m, "IPSecPermitTCPPorts");
+                    PrintProperty(m, "IPSecPermitUDPPorts");
+                    PrintProperty(m, "IPSubnet");
+                    PrintProperty(m, "IPUseZeroBroadcast");
+                    PrintProperty(m, "IPXAddress");
+                    PrintProperty(m, "IPXEnabled");
+                    PrintProperty(m, "IPXFrameType");
+                    PrintProperty(m, "IPXMediaType");
+                    PrintProperty(m, "IPXNetworkNumber");
+                    PrintProperty(m, "IPXVirtualNetNumber");
+                    PrintProperty(m, "KeepAliveInterval");
+                    PrintProperty(m, "KeepAliveTime");
+                    PrintProperty(m, "MACAddress");
+                    PrintProperty(m, "MTU");
+                    PrintProperty(m, "NumForwardPackets");
+                    PrintProperty(m, "PMTUBHDetectEnabled");
+                    PrintProperty(m, "PMTUDiscoveryEnabled");
+                    PrintProperty(m, "ServiceName");
+                    PrintProperty(m, "TcpipNetbiosOptions");
+                    PrintProperty(m, "TcpMaxConnectRetransmissions");
+                    PrintProperty(m, "TcpMaxDataRetransmissions");
+                    PrintProperty(m, "TcpNumConnections");
+                    PrintProperty(m, "TcpUseRFC1122UrgentPointer");
+                    PrintProperty(m, "TcpWindowSize");
+                    PrintProperty(m, "WINSEnableLMHostsLookup");
+                    PrintProperty(m, "WINSHostLookupFile");
+                    PrintProperty(m, "WINSPrimaryServer");
+                    PrintProperty(m, "WINSScopeID");
+                    PrintProperty(m, "WINSSecondaryServer");
+                    Console.WriteLine();
                 }
+
+                Console.ReadLine();
             }
-            return null;
+            /* https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-networkadapterconfiguration */
+        }
+
+        private static void PrintProperty(ManagementObject m, string pp)
+        {
+            Console.WriteLine("{0} = {1} -- {2}", pp, m[pp], m[pp]!=null ? m[pp].GetType() : null);
         }
     }
 }

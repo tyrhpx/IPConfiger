@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Management;
 using System.Net.NetworkInformation;
+using System.Net;
 
 namespace IPConfiger
 {
@@ -12,19 +13,195 @@ namespace IPConfiger
     /// </summary>
     public class NetworkAdapter
     {
-        public string NetworkInterfaceID = "";
-        public string Name;
-        public string Desc;
-        public string Speed;
-        public PhysicalAddress MacAddress;
-        public GatewayIPAddressInformationCollection Gateways;
-        public UnicastIPAddressInformationCollection IPAddrs;
-        public IPAddressCollection DhcpServerAddrs;
-        public bool IsDhcpEnabled;
-        public IPAddressCollection DnsAddrs;
-        public string NetworkInterfaceType;
-        public ManagementObject MO; /* 管理对象 */
-        public NetworkInterface NetIF;
+        /// <summary>
+        /// 适配器ID
+        /// </summary>
+        public string ID
+        {
+            get
+            {
+                return NetIF.Id;
+            }
+        }
+
+        /// <summary>
+        /// 适配器类型
+        /// </summary>
+        public string Type
+        {
+            get
+            {
+                return NetIF.NetworkInterfaceType.ToString();
+            }
+        }
+
+        /// <summary>
+        /// 适配器名称
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return NetIF.Name;
+            }
+        }
+
+        /// <summary>
+        /// 适配器描述
+        /// </summary>
+        public string Desc
+        {
+            get
+            {
+                return NetIF.Description;
+            }
+        }
+
+        /// <summary>
+        /// MAC地址
+        /// </summary>
+        public PhysicalAddress MacAddress
+        {
+            get
+            {
+                return NetIF.GetPhysicalAddress();
+            }
+        }
+
+        /// <summary>
+        /// 网关列表
+        /// </summary>
+        public GatewayIPAddressInformationCollection Gateways
+        {
+            get 
+            {
+                return NetIF.GetIPProperties().GatewayAddresses;
+            }
+        }
+
+        /// <summary>
+        /// IP地址列表
+        /// </summary>
+        public UnicastIPAddressInformationCollection IPAddrs
+        {
+            get
+            {
+                return NetIF.GetIPProperties().UnicastAddresses;
+            }
+        }
+
+        /// <summary>
+        /// DHCP列表
+        /// </summary>
+        public IPAddressCollection DhcpServerAddrs
+        {
+            get
+            {
+                return NetIF.GetIPProperties().DhcpServerAddresses;
+            }
+        }
+
+        /// <summary>
+        /// DNS列表
+        /// </summary>
+        public IPAddressCollection DnsAddrs
+        {
+            get
+            {
+                return NetIF.GetIPProperties().DnsAddresses;
+            }
+        }
+
+        /// <summary>
+        /// 是否启用DHCP
+        /// </summary>
+        public bool DhcpEnabled
+        {
+            get
+            {
+                var ips = NetIF.GetIPProperties().GetIPv4Properties();
+                if (ips != null)
+                {
+                    return ips.IsDhcpEnabled;
+                }
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 是否为环回网卡
+        /// </summary>
+        public bool IsLoopback
+        {
+            get
+            {
+                var x = this.MO["ServiceName"];
+                if (x != null)
+                {
+                    return x.ToString().Contains("loop");
+                }
+                return false;
+            }
+        }
+
+
+        public ManagementObject MO; /* 网络管理对象 */
+        public NetworkInterface NetIF; /* 网络接口 */
+
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public NetworkAdapter(NetworkInterface ni)
+        {
+            this.Update(ni);
+        }
+
+        /// <summary>
+        /// 获取所有网络适配器接口
+        /// </summary>
+        /// <returns></returns>
+        public static List<NetworkAdapter> GetAllNetworkAdapters()
+        {
+            IEnumerable<NetworkInterface> nics = NetworkInterface.GetAllNetworkInterfaces(); //得到所有适配器
+            var result = new List<NetworkAdapter>();
+
+            // 遍历网络接口
+            foreach (NetworkInterface ni in nics)
+            {
+                // Only display informatin for interfaces that support IPv4.
+                if (ni.Supports(NetworkInterfaceComponent.IPv4) == false)
+                {
+                    continue;
+                }
+
+                // 创建适配器对象
+                var adapter = new NetworkAdapter(ni);
+                if (adapter.Type == "Ethernet")
+                {
+                    result.Add(adapter);       
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 获取网络适配器管理对象
+        /// </summary>
+        /// <param name="interfaceID">接口ID</param>
+        /// <returns></returns>
+        public static ManagementObject GetNetManageObj(string interfaceID)
+        {
+            var moc = new ManagementObjectSearcher("select * FROM Win32_NetworkAdapterConfiguration");
+            foreach (ManagementObject mo in moc.Get())
+            {
+                if (mo["SettingID"].ToString() == interfaceID) //网卡接口标识是否相等, 相当只设置指定适配器IP地址
+                {
+                    return mo;
+                }
+            }
+            return null;
+        }
 
         /// <summary>
         /// 设置IP地址
@@ -39,13 +216,14 @@ namespace IPConfiger
             {
                 ManagementBaseObject inPar, outPar;
                 string str;
-                if (ip != null && submask != null)
+                if (ip != null && submask != null && ip.Length > 0)
                 {
                     inPar = MO.GetMethodParameters("EnableStatic");
                     inPar["IPAddress"] = ip;
                     inPar["SubnetMask"] = submask;
                     outPar = MO.InvokeMethod("EnableStatic", inPar, null);
                     str = outPar["returnvalue"].ToString();
+
                     if (ErrInfoMap.ContainsKey(str))
                     {
                         err = ErrInfoMap[str];
@@ -95,53 +273,23 @@ namespace IPConfiger
         }
 
         /// <summary>
-        /// 启用DHCP服务
-        /// </summary>
-        public void EnableDHCP()
-        {
-            if (this.MO != null)
-            {
-                MO.InvokeMethod("SetDNSServerSearchOrder", null);
-                MO.InvokeMethod("EnableDHCP", null);
-            }
-        }
-        
-        /// <summary>
         /// 刷新
         /// </summary>
-        public void Update(NetworkInterface adapter)
+        public void Update(NetworkInterface ni)
         {
-            this.NetIF = adapter;
-
-            IPInterfaceProperties ips = NetIF.GetIPProperties();
-            this.Name = NetIF.Name;
-            this.NetworkInterfaceType = NetIF.NetworkInterfaceType.ToString();
-            this.Speed = NetIF.Speed / 1000 / 1000 + "MB"; //速度
-            this.MacAddress = NetIF.GetPhysicalAddress(); //物理地址集合
-            this.NetworkInterfaceID = NetIF.Id;//网络适配器标识符
-
-            this.Gateways = ips.GatewayAddresses; //网关地址集合
-            this.IPAddrs = ips.UnicastAddresses; //IP地址集合
-            this.DhcpServerAddrs = ips.DhcpServerAddresses;//DHCP地址集合
-            this.IsDhcpEnabled = ips.GetIPv4Properties() == null ? false : ips.GetIPv4Properties().IsDhcpEnabled; //是否启用DHCP服务
-            this.DnsAddrs = ips.DnsAddresses; //获取并显示DNS服务器IP地址信息 集合
-
-            this.MO = NetworkAdapterUtil.GetManageObj(NetIF.Id);
-            if (this.MO != null)
-            {
-                this.Desc = this.MO["Description"].ToString();
-            }
+            this.NetIF = ni;
+            this.MO = NetworkAdapter.GetNetManageObj(this.ID);
         }
 
         /// <summary>
-        /// 重新加载数据
+        /// 重新加载
         /// </summary>
-        public void ReloadData()
+        public void Reload()
         {
             IEnumerable<NetworkInterface> adapters = NetworkInterface.GetAllNetworkInterfaces(); //得到所有适配器
             foreach (var x in adapters)
             {
-                if (x.Id == this.NetworkInterfaceID )
+                if (x.Id == this.ID)
                 {
                     this.Update(x);
                     break;
@@ -155,7 +303,15 @@ namespace IPConfiger
         /// <returns></returns>
         public override string ToString()
         {
-            return this.Name;
+        //    return string.Format("[{4}] {0}(IPEnable={1}, DHCPEnabled={2}, NetEnabled={3})", this.Name, this.IPEnabled, this.DhcpEnabled, this.NetEnabled,
+        //        this.NetEnabled ? "已启用" : "已禁用");
+
+            var s = this.Name;
+            if (this.DhcpEnabled)
+            {
+                s += "(DHCP)";
+            }
+            return s;
         }
 
         #region 错误代码信息表

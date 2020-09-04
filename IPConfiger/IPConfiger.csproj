@@ -39,6 +39,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -128,6 +129,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.ico" />
+    <None Include="Resources\网络连接.png" />
+    <None Include="Resources\最小化.png" />
+    <None Include="Resources\最大化.png" />
+    <None Include="Resources\展开.png" />
+    <None Include="Resources\刷新.png" />
+    <None Include="Resources\设置.png" />
+    <None Include="Resources\恢复.png" />
+    <None Include="Resources\关闭.png" />
+    <None Include="Resources\菜单.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

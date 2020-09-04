@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("IP配置工具")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("使用场景：在WINDOWS下开发的人员，需要在本机测试时会添加大量的IP，而修改或切换这些IP时非常麻烦，WINDOWS界面也不友好且时不时的出点问题打不开。 该工具使用文本直接编辑网卡上的IP地址，方便易用。对于复杂的设置，请使用WINDOWS自带的管理工具。")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("TxWorld")]
 [assembly: AssemblyProduct("IPConfiger")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // 可以指定所有这些值，也可以使用“内部版本号”和“修订号”的默认值，
 // 方法是按如下所示使用“*”:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.1.0.0")]
+[assembly: AssemblyFileVersion("1.1.0.0")]
