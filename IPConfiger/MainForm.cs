@@ -433,7 +433,6 @@ namespace IPConfiger
                 pbFrmMax_Click(null, null);
             }
         }
-        #endregion
 
         /// <summary>
         /// 窗口大小改变时重新设置最大化图标
@@ -451,5 +450,6 @@ namespace IPConfiger
                 this.pbFrmMax.Image = Properties.Resources.最大化;
             }
         }
+        #endregion
     }
 }
