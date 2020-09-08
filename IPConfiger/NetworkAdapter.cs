@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Management;
 using System.Net.NetworkInformation;
-using System.Net;
 
 namespace IPConfiger
 {
@@ -144,9 +140,15 @@ namespace IPConfiger
             }
         }
 
+        /// <summary>
+        /// 网络管理对象
+        /// </summary>
+        public ManagementObject MO;
 
-        public ManagementObject MO; /* 网络管理对象 */
-        public NetworkInterface NetIF; /* 网络接口 */
+        /// <summary>
+        /// 网络接口对象
+        /// </summary>
+        public NetworkInterface NetIF;
 
 
         /// <summary>
@@ -303,9 +305,6 @@ namespace IPConfiger
         /// <returns></returns>
         public override string ToString()
         {
-        //    return string.Format("[{4}] {0}(IPEnable={1}, DHCPEnabled={2}, NetEnabled={3})", this.Name, this.IPEnabled, this.DhcpEnabled, this.NetEnabled,
-        //        this.NetEnabled ? "已启用" : "已禁用");
-
             var s = this.Name;
             if (this.DhcpEnabled)
             {
