@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.tbText = new System.Windows.Forms.TextBox();
             this.lbNetCards = new System.Windows.Forms.ListBox();
             this.cmsNetCard = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiRefresh = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,6 +48,7 @@
             this.pbFrmMin = new System.Windows.Forms.PictureBox();
             this.pbFrmClose = new System.Windows.Forms.PictureBox();
             this.pbFrmMax = new System.Windows.Forms.PictureBox();
+            this.tbText = new IPConfiger.AdvRichTextBox();
             this.cmsNetCard.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -63,17 +63,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbFrmClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbFrmMax)).BeginInit();
             this.SuspendLayout();
-            // 
-            // tbText
-            // 
-            this.tbText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbText.Location = new System.Drawing.Point(0, 0);
-            this.tbText.Margin = new System.Windows.Forms.Padding(4);
-            this.tbText.Multiline = true;
-            this.tbText.Name = "tbText";
-            this.tbText.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbText.Size = new System.Drawing.Size(549, 439);
-            this.tbText.TabIndex = 0;
             // 
             // lbNetCards
             // 
@@ -303,6 +292,20 @@
             this.pbFrmMax.MouseEnter += new System.EventHandler(this.pbFrmMin_MouseEnter);
             this.pbFrmMax.MouseLeave += new System.EventHandler(this.pbFrmMin_MouseLeave);
             // 
+            // tbText
+            // 
+            this.tbText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbText.LineNoBackColor = System.Drawing.Color.Gainsboro;
+            this.tbText.LineNoForeColor = System.Drawing.Color.Blue;
+            this.tbText.Lines = new string[0];
+            this.tbText.Location = new System.Drawing.Point(0, 0);
+            this.tbText.Margin = new System.Windows.Forms.Padding(4);
+            this.tbText.Multiline = true;
+            this.tbText.Name = "tbText";
+            this.tbText.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
+            this.tbText.Size = new System.Drawing.Size(549, 439);
+            this.tbText.TabIndex = 0;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -326,7 +329,6 @@
             this.cmsNetCard.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
@@ -343,7 +345,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox tbText;
+        private IPConfiger.AdvRichTextBox tbText;
         private System.Windows.Forms.ListBox lbNetCards;
         private System.Windows.Forms.Button btnUpdateCfg;
         private System.Windows.Forms.Label lbTips;

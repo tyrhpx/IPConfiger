@@ -72,6 +72,7 @@ namespace IPConfiger
                 lbTips.Text = adapter.Desc;
                 tbText.Text = sb.ToString();
 
+                tbText.Adapter = adapter;
                 tbText.Enabled = !adapter.DhcpEnabled;
                 btnUpdateCfg.Enabled = !adapter.DhcpEnabled;
             }
