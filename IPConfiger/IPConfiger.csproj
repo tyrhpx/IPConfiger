@@ -70,24 +70,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdvRichTextBox.cs">
+    <Compile Include="AdvRichTextBox\AdvRichTextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="AdvRichTextBox.Designer.cs">
+    <Compile Include="AdvRichTextBox\AdvRichTextBox.Designer.cs">
       <DependentUpon>AdvRichTextBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="IPAddressRTB.cs">
+    <Compile Include="AdvRichTextBox\IPAddrInfoCompare.cs" />
+    <Compile Include="AdvRichTextBox\IPAddressRTB.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="IPAddressRTB.Designer.cs">
+    <Compile Include="AdvRichTextBox\IPAddressRTB.Designer.cs">
       <DependentUpon>IPAddressRTB.cs</DependentUpon>
     </Compile>
-    <Compile Include="RTBLineNoPanel.cs">
+    <Compile Include="AdvRichTextBox\RTBLineNoPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="RTBLineNoPanel.Designer.cs">
+    <Compile Include="AdvRichTextBox\RTBLineNoPanel.Designer.cs">
       <DependentUpon>RTBLineNoPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="AssemblyInformation.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,13 +99,13 @@
     <Compile Include="NetworkAdapter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="AdvRichTextBox.resx">
+    <EmbeddedResource Include="AdvRichTextBox\AdvRichTextBox.resx">
       <DependentUpon>AdvRichTextBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="IPAddressRTB.resx">
+    <EmbeddedResource Include="AdvRichTextBox\IPAddressRTB.resx">
       <DependentUpon>IPAddressRTB.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RTBLineNoPanel.resx">
+    <EmbeddedResource Include="AdvRichTextBox\RTBLineNoPanel.resx">
       <DependentUpon>RTBLineNoPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
@@ -155,7 +157,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.ico" />
+    <None Include="Resources\重做.png" />
+    <None Include="Resources\粘贴.png" />
     <None Include="Resources\网络连接.png" />
+    <None Include="Resources\剪切.png" />
+    <None Include="Resources\关于.png" />
+    <None Include="Resources\复制.png" />
+    <None Include="Resources\导入导出.png" />
+    <None Include="Resources\撤销.png" />
     <None Include="Resources\最小化.png" />
     <None Include="Resources\最大化.png" />
     <None Include="Resources\展开.png" />

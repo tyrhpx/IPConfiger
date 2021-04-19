@@ -78,11 +78,15 @@ namespace IPConfiger
         /// <summary>
         /// IP地址列表
         /// </summary>
-        public UnicastIPAddressInformationCollection IPAddrs
+        public List<UnicastIPAddressInformation> IPAddrs
         {
             get
             {
-                return NetIF.GetIPProperties().UnicastAddresses;
+                var result = new List<UnicastIPAddressInformation>(NetIF.GetIPProperties().UnicastAddresses);
+
+                result.Sort(new IPAddrInfoCompare());
+
+                return result;
             }
         }
 

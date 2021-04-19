@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Drawing;
+using System.Runtime.InteropServices;
 
 namespace IPConfiger
 {
@@ -22,13 +24,23 @@ namespace IPConfiger
         public IPAddressRTB()
         {
             InitializeComponent();
+            InitRTB();
         }
 
         public IPAddressRTB(IContainer container)
         {
             container.Add(this);
-
             InitializeComponent();
+
+            InitRTB();
+        }
+
+        /// <summary>
+        /// 初始化文本框
+        /// </summary>
+        protected void InitRTB()
+        {
+            tsmiAddrList.DropDownItemClicked += cmsRTB_ItemClicked; /* 二级菜单响应 */
         }
 
         /// <summary>
@@ -90,10 +102,6 @@ namespace IPConfiger
                         this.ImportIPList();
                         break;
                     case "tsmiExport":
-                        cmsRTB.Close();
-                        this.ExportIPList(this.SelectedText);
-                        break;
-                    case "tsmiExportAll":
                         cmsRTB.Close();
                         this.ExportIPList(this.Text);
                         break;
@@ -160,22 +168,13 @@ namespace IPConfiger
                 tsmiClearAll.Enabled = false;
             }
 
-            if (base.SelectedText.Length > 0)
+            if (base.Text.Length > 0)
             {
                 tsmiExport.Enabled = true;
             }
             else
             {
                 tsmiExport.Enabled = false;
-            }
-
-            if (base.Text.Length > 0)
-            {
-                tsmiExportAll.Enabled = true;
-            }
-            else
-            {
-                tsmiExportAll.Enabled = false;
             }
         }
 

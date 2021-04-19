@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Net;
 using System.Runtime.InteropServices;
+using System.Reflection;
 
 namespace IPConfiger
 {
@@ -18,6 +19,9 @@ namespace IPConfiger
         private void Form1_Load(object sender, EventArgs e)
         {
             UpdateAllAdapters();
+
+            /* 显示关于信息 */
+            ShowAboutInfo();
         }
 
         /// <summary>
@@ -172,8 +176,21 @@ namespace IPConfiger
         /// <param name="e"></param>
         private void tsmiAbout_Click(object sender, EventArgs e)
         {
+            ShowAboutInfo();
+        }
+
+        /// <summary>
+        /// 显示关于信息
+        /// </summary>
+        private void ShowAboutInfo()
+        {
+            var asm = new AssemblyInformation();
+            
             var sb = new StringBuilder();
-            sb.AppendLine("名称：IPConfiger - IP配置工具");
+            sb.AppendLine("关于" + asm.AssemblyProduct);
+            sb.AppendLine("------------------------------------------------------");
+            sb.AppendFormat("名称：{0} - {1}", asm.AssemblyProduct, asm.AssemblyTitle);
+            sb.AppendLine();
             sb.AppendLine();
             sb.AppendLine("版本：V" + Application.ProductVersion);
             sb.AppendLine();

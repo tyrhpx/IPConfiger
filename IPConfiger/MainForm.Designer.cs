@@ -39,6 +39,7 @@
             this.btnUpdateCfg = new System.Windows.Forms.Button();
             this.lbTips = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.tbText = new IPConfiger.AdvRichTextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panelTitleBar = new System.Windows.Forms.Panel();
             this.tlPanelTitle = new System.Windows.Forms.TableLayoutPanel();
@@ -48,7 +49,6 @@
             this.pbFrmMin = new System.Windows.Forms.PictureBox();
             this.pbFrmClose = new System.Windows.Forms.PictureBox();
             this.pbFrmMax = new System.Windows.Forms.PictureBox();
-            this.tbText = new IPConfiger.AdvRichTextBox();
             this.cmsNetCard.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -81,41 +81,41 @@
             // 
             // cmsNetCard
             // 
-            this.cmsNetCard.ImageScalingSize = new System.Drawing.Size(25, 25);
+            this.cmsNetCard.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.cmsNetCard.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiRefresh,
             this.toolStripSeparator1,
             this.tsmiNetConnection,
             this.tsmiAbout});
             this.cmsNetCard.Name = "cmsNetCard";
-            this.cmsNetCard.Size = new System.Drawing.Size(187, 106);
+            this.cmsNetCard.Size = new System.Drawing.Size(194, 124);
             // 
             // tsmiRefresh
             // 
             this.tsmiRefresh.Image = global::IPConfiger.Properties.Resources.刷新;
             this.tsmiRefresh.Name = "tsmiRefresh";
-            this.tsmiRefresh.Size = new System.Drawing.Size(186, 32);
+            this.tsmiRefresh.Size = new System.Drawing.Size(193, 38);
             this.tsmiRefresh.Text = "刷新列表(&E)";
             this.tsmiRefresh.Click += new System.EventHandler(this.tsmiRefresh_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(183, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(190, 6);
             // 
             // tsmiNetConnection
             // 
             this.tsmiNetConnection.Image = global::IPConfiger.Properties.Resources.设置;
             this.tsmiNetConnection.Name = "tsmiNetConnection";
-            this.tsmiNetConnection.Size = new System.Drawing.Size(186, 32);
+            this.tsmiNetConnection.Size = new System.Drawing.Size(193, 38);
             this.tsmiNetConnection.Text = "网络连接(...)";
             this.tsmiNetConnection.Click += new System.EventHandler(this.tsmiNetConnection_Click);
             // 
             // tsmiAbout
             // 
-            this.tsmiAbout.Image = global::IPConfiger.Properties.Resources.菜单;
+            this.tsmiAbout.Image = global::IPConfiger.Properties.Resources.关于;
             this.tsmiAbout.Name = "tsmiAbout";
-            this.tsmiAbout.Size = new System.Drawing.Size(186, 32);
+            this.tsmiAbout.Size = new System.Drawing.Size(193, 38);
             this.tsmiAbout.Text = "关于IPConfiger(&A)";
             this.tsmiAbout.Click += new System.EventHandler(this.tsmiAbout_Click);
             // 
@@ -161,6 +161,21 @@
             this.splitContainer1.Size = new System.Drawing.Size(779, 496);
             this.splitContainer1.SplitterDistance = 224;
             this.splitContainer1.TabIndex = 4;
+            // 
+            // tbText
+            // 
+            this.tbText.Adapter = null;
+            this.tbText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbText.LineNoBackColor = System.Drawing.Color.Gainsboro;
+            this.tbText.LineNoForeColor = System.Drawing.Color.Blue;
+            this.tbText.Lines = new string[0];
+            this.tbText.Location = new System.Drawing.Point(0, 0);
+            this.tbText.Margin = new System.Windows.Forms.Padding(4);
+            this.tbText.Multiline = true;
+            this.tbText.Name = "tbText";
+            this.tbText.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
+            this.tbText.Size = new System.Drawing.Size(549, 439);
+            this.tbText.TabIndex = 0;
             // 
             // panel1
             // 
@@ -291,20 +306,6 @@
             this.pbFrmMax.Click += new System.EventHandler(this.pbFrmMax_Click);
             this.pbFrmMax.MouseEnter += new System.EventHandler(this.pbFrmMin_MouseEnter);
             this.pbFrmMax.MouseLeave += new System.EventHandler(this.pbFrmMin_MouseLeave);
-            // 
-            // tbText
-            // 
-            this.tbText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbText.LineNoBackColor = System.Drawing.Color.Gainsboro;
-            this.tbText.LineNoForeColor = System.Drawing.Color.Blue;
-            this.tbText.Lines = new string[0];
-            this.tbText.Location = new System.Drawing.Point(0, 0);
-            this.tbText.Margin = new System.Windows.Forms.Padding(4);
-            this.tbText.Multiline = true;
-            this.tbText.Name = "tbText";
-            this.tbText.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.tbText.Size = new System.Drawing.Size(549, 439);
-            this.tbText.TabIndex = 0;
             // 
             // MainForm
             // 
