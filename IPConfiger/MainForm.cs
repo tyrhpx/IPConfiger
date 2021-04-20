@@ -213,7 +213,6 @@ namespace IPConfiger
             sb.AppendLine("      2.编辑框右键菜单添加图标。");
             sb.AppendLine("      3.优化地址列表显示格式，\"#\"前后添加空格。");
             sb.AppendLine("      4.优化提示信息显示。");
-            sb.AppendLine();
             sb.AppendLine("------------------------------------------------------");
             sb.AppendLine("版本：V1.1");
             sb.AppendLine("日期：2020-09-10");
@@ -221,10 +220,9 @@ namespace IPConfiger
             sb.AppendLine("      2.添加了行号显示");
             sb.AppendLine("      3.添加导入导出功能");
             sb.AppendLine("      4.对主框架进行重绘");
-            sb.AppendLine();
             sb.AppendLine("------------------------------------------------------");
             sb.AppendLine("版本：V1.0");
-            sb.AppendLine("日期：2020-08-20");
+            sb.AppendLine("日期：2019-07-26");
             sb.AppendLine("内容：发布初始版本");
 
             this.tbText.Enabled = true;
