@@ -39,7 +39,6 @@
             this.btnUpdateCfg = new System.Windows.Forms.Button();
             this.lbTips = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.tbText = new IPConfiger.AdvRichTextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panelTitleBar = new System.Windows.Forms.Panel();
             this.tlPanelTitle = new System.Windows.Forms.TableLayoutPanel();
@@ -49,6 +48,8 @@
             this.pbFrmMin = new System.Windows.Forms.PictureBox();
             this.pbFrmClose = new System.Windows.Forms.PictureBox();
             this.pbFrmMax = new System.Windows.Forms.PictureBox();
+            this.tsmiReleaseNotes = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbText = new IPConfiger.AdvRichTextBox();
             this.cmsNetCard.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -86,9 +87,10 @@
             this.tsmiRefresh,
             this.toolStripSeparator1,
             this.tsmiNetConnection,
+            this.tsmiReleaseNotes,
             this.tsmiAbout});
             this.cmsNetCard.Name = "cmsNetCard";
-            this.cmsNetCard.Size = new System.Drawing.Size(194, 124);
+            this.cmsNetCard.Size = new System.Drawing.Size(194, 162);
             // 
             // tsmiRefresh
             // 
@@ -122,6 +124,7 @@
             // btnUpdateCfg
             // 
             this.btnUpdateCfg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnUpdateCfg.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnUpdateCfg.Location = new System.Drawing.Point(415, 4);
             this.btnUpdateCfg.Margin = new System.Windows.Forms.Padding(4);
             this.btnUpdateCfg.Name = "btnUpdateCfg";
@@ -161,21 +164,6 @@
             this.splitContainer1.Size = new System.Drawing.Size(779, 496);
             this.splitContainer1.SplitterDistance = 224;
             this.splitContainer1.TabIndex = 4;
-            // 
-            // tbText
-            // 
-            this.tbText.Adapter = null;
-            this.tbText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbText.LineNoBackColor = System.Drawing.Color.Gainsboro;
-            this.tbText.LineNoForeColor = System.Drawing.Color.Blue;
-            this.tbText.Lines = new string[0];
-            this.tbText.Location = new System.Drawing.Point(0, 0);
-            this.tbText.Margin = new System.Windows.Forms.Padding(4);
-            this.tbText.Multiline = true;
-            this.tbText.Name = "tbText";
-            this.tbText.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.tbText.Size = new System.Drawing.Size(549, 439);
-            this.tbText.TabIndex = 0;
             // 
             // panel1
             // 
@@ -307,6 +295,30 @@
             this.pbFrmMax.MouseEnter += new System.EventHandler(this.pbFrmMin_MouseEnter);
             this.pbFrmMax.MouseLeave += new System.EventHandler(this.pbFrmMin_MouseLeave);
             // 
+            // tsmiReleaseNotes
+            // 
+            this.tsmiReleaseNotes.Image = global::IPConfiger.Properties.Resources.菜单;
+            this.tsmiReleaseNotes.Name = "tsmiReleaseNotes";
+            this.tsmiReleaseNotes.Size = new System.Drawing.Size(193, 38);
+            this.tsmiReleaseNotes.Text = "更新日志(&R)";
+            this.tsmiReleaseNotes.Click += new System.EventHandler(this.tsmiReleaseNotes_Click);
+            // 
+            // tbText
+            // 
+            this.tbText.Adapter = null;
+            this.tbText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbText.LineNoBackColor = System.Drawing.Color.Gainsboro;
+            this.tbText.LineNoForeColor = System.Drawing.Color.Blue;
+            this.tbText.Lines = new string[0];
+            this.tbText.Location = new System.Drawing.Point(0, 0);
+            this.tbText.Margin = new System.Windows.Forms.Padding(4);
+            this.tbText.Multiline = true;
+            this.tbText.Name = "tbText";
+            this.tbText.Readonly = false;
+            this.tbText.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
+            this.tbText.Size = new System.Drawing.Size(549, 439);
+            this.tbText.TabIndex = 0;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -365,6 +377,7 @@
         private System.Windows.Forms.PictureBox pbFrmMin;
         private System.Windows.Forms.PictureBox pbFrmClose;
         private System.Windows.Forms.PictureBox pbFrmMax;
+        private System.Windows.Forms.ToolStripMenuItem tsmiReleaseNotes;
     }
 }
 

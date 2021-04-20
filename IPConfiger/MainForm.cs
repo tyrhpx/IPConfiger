@@ -20,8 +20,8 @@ namespace IPConfiger
         {
             UpdateAllAdapters();
 
-            /* 显示关于信息 */
-            ShowAboutInfo();
+            /* 显示欢迎信息 */
+            ShowWelcomeInfo();
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace IPConfiger
         /// </summary>
         private void UpdateAllAdapters()
         {
-            SetWorkingStatus(true);
+            SetWorkingStatus(true, "正在刷新所有网络适配器");
             var adapters = NetworkAdapter.GetAllNetworkAdapters();
 
             lbNetCards.Items.Clear();
@@ -48,7 +48,7 @@ namespace IPConfiger
         {
             if (adapter != null)
             {
-                SetWorkingStatus(true);
+                SetWorkingStatus(true, "正在更新网卡 [" + adapter.Name + "]");
                 adapter.Reload();
                 SetWorkingStatus(false);
             }
@@ -70,7 +70,7 @@ namespace IPConfiger
                     var ip = adapter.IPAddrs[i];
                     if (ip.Address.AddressFamily.ToString() == "InterNetwork")
                     {//IPV4
-                        sb.AppendFormat("{0}#{1}\r\n", ip.Address.ToString(), ip.IPv4Mask.ToString());
+                        sb.AppendLine(string.Format("{0} # {1}", ip.Address.ToString(), ip.IPv4Mask.ToString()));
                     }
                 }
                 lbTips.Text = adapter.Desc;
@@ -111,10 +111,16 @@ namespace IPConfiger
                     string[] sa = lineStr.Split('#');
                     if (sa.Length == 2)
                     {
-                        if (IsIPAddressValid(sa[0]) && IsIPAddressValid(sa[1]))
+                        var newIP = sa[0].Trim();
+                        var newMask = sa[1].Trim();
+                        if (IsIPAddressValid(newIP) && IsIPAddressValid(newMask))
                         {
-                            ip.Add(sa[0]);
-                            mask.Add(sa[1]);
+                            // 不添加重复IP
+                            if (!ip.Contains(newIP))
+                            {
+                                ip.Add(newIP);
+                                mask.Add(newMask);
+                            }
                         }
                         else
                         {
@@ -125,7 +131,7 @@ namespace IPConfiger
                     }
                     else
                     {
-                        string s = string.Format("抱歉，第{0}行有误，正确格式为：IP#SubMask！", i + 1);
+                        string s = string.Format("抱歉，第{0}行有误，正确格式为：IP # SubMask！", i + 1);
                         MessageBox.Show(s, "IPConfiger", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
@@ -133,7 +139,7 @@ namespace IPConfiger
 
                 if (ip.Count == 0 || mask.Count == 0)
                 {
-                    string s = string.Format("抱歉，IP不能为空，必须保留至少一个IP#SubMask！");
+                    string s = string.Format("抱歉，IP不能为空，必须保留至少一个IP # SubMask！");
                     MessageBox.Show(s, "IPConfiger", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -142,7 +148,9 @@ namespace IPConfiger
                             "IPConfiger", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
                 {
                     string errStr = "";
+                    SetWorkingStatus(true, "正在调用操作系统接口");
                     bool ret = adapter.SetIPAddress(ip.ToArray(), mask.ToArray(), null, null, ref errStr);
+                    SetWorkingStatus(false);
                     if (ret)
                     {
                         UpdateAdapter(adapter);
@@ -180,6 +188,50 @@ namespace IPConfiger
         }
 
         /// <summary>
+        /// 显示欢迎信息
+        /// </summary>
+        private void ShowWelcomeInfo()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("");
+
+            this.tbText.Enabled = true;
+            this.tbText.Text = sb.ToString();
+        }
+
+        /// <summary>
+        /// 显示发布日志
+        /// </summary>
+        private void ShowReleaseNotes()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("更新日志");
+            sb.AppendLine("------------------------------------------------------");
+            sb.AppendLine("版本：V1.2");
+            sb.AppendLine("日期：2021-04-20");
+            sb.AppendLine("内容：1.优化IP排序，修复XP下乱序的问题。");
+            sb.AppendLine("      2.编辑框右键菜单添加图标。");
+            sb.AppendLine("      3.优化地址列表显示格式，\"#\"前后添加空格。");
+            sb.AppendLine("      4.优化提示信息显示。");
+            sb.AppendLine();
+            sb.AppendLine("------------------------------------------------------");
+            sb.AppendLine("版本：V1.1");
+            sb.AppendLine("日期：2020-09-10");
+            sb.AppendLine("内容：1.添加了主菜单");
+            sb.AppendLine("      2.添加了行号显示");
+            sb.AppendLine("      3.添加导入导出功能");
+            sb.AppendLine("      4.对主框架进行重绘");
+            sb.AppendLine();
+            sb.AppendLine("------------------------------------------------------");
+            sb.AppendLine("版本：V1.0");
+            sb.AppendLine("日期：2020-08-20");
+            sb.AppendLine("内容：发布初始版本");
+
+            this.tbText.Enabled = true;
+            this.tbText.Text = sb.ToString();
+        }
+
+        /// <summary>
         /// 显示关于信息
         /// </summary>
         private void ShowAboutInfo()
@@ -199,6 +251,8 @@ namespace IPConfiger
             sb.AppendLine("描述：Windows下的IP配置工具，能够批量配置IP和子网掩码。");
             sb.AppendLine();
             sb.AppendLine("说明：不支持禁用和自动获取IP的网卡。");
+
+            this.tbText.Enabled = true;
             this.tbText.Text = sb.ToString();
         }
 
@@ -263,16 +317,18 @@ namespace IPConfiger
         /// <summary>
         /// 设置工作状态
         /// </summary>
-        /// <param name="isDoing"></param>
-        private void SetWorkingStatus(bool isDoing)
+        /// <param name="isDoing">工作状态</param>
+        /// <param name="sText">提示文本</param>
+        private void SetWorkingStatus(bool isDoing, string sText = "")
         {
             var ver = new Version(Application.ProductVersion);
             var s = string.Format("IP配置工具 V{0}.{1}", ver.Major, ver.Minor);
             if (isDoing)
             {
-                s += "  —— 执行中，请稍候...";
+                s += string.Format("  —— {0}，请稍候...", sText);
             }
             this.lbFrmTitle.Text = s;
+            this.lbFrmTitle.Update(); // 立即刷新
         }
 
         /// <summary>
@@ -283,6 +339,16 @@ namespace IPConfiger
         private void tsmiNetConnection_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("ncpa.cpl");
+        }
+
+        /// <summary>
+        /// 更新日志
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tsmiReleaseNotes_Click(object sender, EventArgs e)
+        {
+            ShowReleaseNotes();
         }
 
         #region 重写窗口过程处理

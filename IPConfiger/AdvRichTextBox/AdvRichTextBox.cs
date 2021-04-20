@@ -73,6 +73,21 @@ namespace IPConfiger
         }
 
         /// <summary>
+        /// 文本只读属性
+        /// </summary>
+        public bool Readonly
+        {
+            get 
+            { 
+                return richTB.ReadOnly; 
+            }
+            set 
+            { 
+                richTB.ReadOnly = value; 
+            }
+        }
+
+        /// <summary>
         /// 行号前景色
         /// </summary>
         public Color LineNoForeColor

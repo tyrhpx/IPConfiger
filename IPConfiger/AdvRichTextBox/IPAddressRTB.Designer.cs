@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IPAddressRTB));
             this.cmsRTB = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiUndo = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiRedo = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,8 +50,8 @@
             // 
             // cmsRTB
             // 
+            resources.ApplyResources(this.cmsRTB, "cmsRTB");
             this.cmsRTB.BackColor = System.Drawing.Color.White;
-            this.cmsRTB.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F);
             this.cmsRTB.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.cmsRTB.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiUndo,
@@ -67,104 +68,94 @@
             this.tsmiAddrList});
             this.cmsRTB.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Table;
             this.cmsRTB.Name = "cmsRTB";
-            this.cmsRTB.Size = new System.Drawing.Size(153, 256);
             this.cmsRTB.Opening += new System.ComponentModel.CancelEventHandler(this.cmsRTB_Opening);
             this.cmsRTB.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.cmsRTB_ItemClicked);
             // 
             // tsmiUndo
             // 
+            resources.ApplyResources(this.tsmiUndo, "tsmiUndo");
             this.tsmiUndo.Image = global::IPConfiger.Properties.Resources.撤销;
             this.tsmiUndo.Name = "tsmiUndo";
-            this.tsmiUndo.Size = new System.Drawing.Size(148, 24);
-            this.tsmiUndo.Text = "撤销(&U)";
             // 
             // tsmiRedo
             // 
+            resources.ApplyResources(this.tsmiRedo, "tsmiRedo");
             this.tsmiRedo.Image = global::IPConfiger.Properties.Resources.重做;
             this.tsmiRedo.Name = "tsmiRedo";
-            this.tsmiRedo.Size = new System.Drawing.Size(148, 24);
-            this.tsmiRedo.Text = "重做(&R)";
             // 
             // toolStripSeparator1
             // 
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(145, 6);
             // 
             // tsmiCut
             // 
+            resources.ApplyResources(this.tsmiCut, "tsmiCut");
             this.tsmiCut.Image = global::IPConfiger.Properties.Resources.剪切;
             this.tsmiCut.Name = "tsmiCut";
-            this.tsmiCut.Size = new System.Drawing.Size(148, 24);
-            this.tsmiCut.Text = "剪切(&T)";
             // 
             // tsmiCopy
             // 
+            resources.ApplyResources(this.tsmiCopy, "tsmiCopy");
             this.tsmiCopy.Image = global::IPConfiger.Properties.Resources.复制;
             this.tsmiCopy.Name = "tsmiCopy";
-            this.tsmiCopy.Size = new System.Drawing.Size(148, 24);
-            this.tsmiCopy.Text = "复制(&C)";
             // 
             // tsmiParse
             // 
+            resources.ApplyResources(this.tsmiParse, "tsmiParse");
             this.tsmiParse.Image = global::IPConfiger.Properties.Resources.粘贴;
             this.tsmiParse.Name = "tsmiParse";
-            this.tsmiParse.Size = new System.Drawing.Size(148, 24);
-            this.tsmiParse.Text = "粘贴(&P)";
             // 
             // tsmiDelete
             // 
+            resources.ApplyResources(this.tsmiDelete, "tsmiDelete");
             this.tsmiDelete.Name = "tsmiDelete";
-            this.tsmiDelete.Size = new System.Drawing.Size(148, 24);
-            this.tsmiDelete.Text = "删除(&D)";
             // 
             // toolStripSeparator2
             // 
+            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(145, 6);
             // 
             // tsmiSelectAll
             // 
+            resources.ApplyResources(this.tsmiSelectAll, "tsmiSelectAll");
             this.tsmiSelectAll.Name = "tsmiSelectAll";
-            this.tsmiSelectAll.Size = new System.Drawing.Size(148, 24);
-            this.tsmiSelectAll.Text = "全选(&A)";
             // 
             // tsmiClearAll
             // 
+            resources.ApplyResources(this.tsmiClearAll, "tsmiClearAll");
             this.tsmiClearAll.Name = "tsmiClearAll";
-            this.tsmiClearAll.Size = new System.Drawing.Size(148, 24);
-            this.tsmiClearAll.Text = "清空(&L)";
             // 
             // toolStripSeparator3
             // 
+            resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(145, 6);
             // 
             // tsmiAddrList
             // 
+            resources.ApplyResources(this.tsmiAddrList, "tsmiAddrList");
             this.tsmiAddrList.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiImport,
             this.tsmiExport});
             this.tsmiAddrList.Image = global::IPConfiger.Properties.Resources.导入导出;
             this.tsmiAddrList.Name = "tsmiAddrList";
-            this.tsmiAddrList.Size = new System.Drawing.Size(148, 24);
-            this.tsmiAddrList.Text = "地址列表(I)";
             // 
             // tsmiImport
             // 
+            resources.ApplyResources(this.tsmiImport, "tsmiImport");
             this.tsmiImport.Name = "tsmiImport";
-            this.tsmiImport.Size = new System.Drawing.Size(181, 24);
-            this.tsmiImport.Text = "导入地址列表(...)";
             // 
             // tsmiExport
             // 
+            resources.ApplyResources(this.tsmiExport, "tsmiExport");
             this.tsmiExport.Name = "tsmiExport";
-            this.tsmiExport.Size = new System.Drawing.Size(181, 24);
-            this.tsmiExport.Text = "导出地址列表(...)";
             // 
             // IPAddressRTB
             // 
+            resources.ApplyResources(this, "$this");
             this.BackColor = System.Drawing.Color.White;
             this.ContextMenuStrip = this.cmsRTB;
+            this.DetectUrls = false;
             this.ShowSelectionMargin = true;
             this.cmsRTB.ResumeLayout(false);
             this.ResumeLayout(false);
